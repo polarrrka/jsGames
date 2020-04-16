@@ -1,6 +1,7 @@
 const squares = document.querySelectorAll('.grid div'),
       scoreDisplay = document.querySelector('span'),
       startBtn = document.querySelector('.start'),
+      msg = document.createElement('h2'),
       width = 10;
 
 let currentIndex = 0,
@@ -25,6 +26,7 @@ function startGame() {
   currentSnake.forEach(index => squares[index].classList.add('snake'));
   interval = setInterval(moveOutcomes, intervalTime);
   randomApple();
+  msg.remove();
 }
 
 function moveOutcomes() {
@@ -35,7 +37,7 @@ function moveOutcomes() {
     (currentSnake[0] - width < 0 && direction === -width) || //když had narazí nahoře
     squares[currentSnake[0] + direction].classList.contains('snake') //když jde had do sebe
   ) { 
-    alert('bum');
+    end();
     return clearInterval(interval);
   }
   const tail = currentSnake.pop();
@@ -76,6 +78,12 @@ function control(e) {
   } else if(e.keyCode === 40) {
     direction = +width;
   }
+}
+
+function end() {
+  const div = document.querySelector('#alert');
+  msg.textContent = 'game over';
+  div.appendChild(msg);
 }
 
 document.addEventListener('keyup', control);

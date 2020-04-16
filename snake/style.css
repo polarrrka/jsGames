@@ -1,14 +1,14 @@
 .grid {
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 300px;
   display: flex;
   flex-wrap: wrap;
   border-style: solid;
 }
 
 .grid div {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
 }
 
 .snake {
@@ -17,4 +17,8 @@
 
 .apple {
   background-color: lightgreen;
+}
+
+h1 {
+  padding-top: 30px;
 }
