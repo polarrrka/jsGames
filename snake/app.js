@@ -82,7 +82,7 @@ function control(e) {
 
 function end() {
   const div = document.querySelector('#alert');
-  msg.textContent = 'game over';
+  msg.textContent = 'game over 🥶';
   div.appendChild(msg);
 }
 
