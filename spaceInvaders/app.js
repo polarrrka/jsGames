@@ -82,13 +82,6 @@ function moveInvaders() {
   }
 }
 
-document.addEventListener('keydown',(e) => {
-  if(e.keyCode === 13) {
-    invaderId = setInterval(moveInvaders, 500);
-  }
-})
-
-
 function shoot(e) {
   let laserId;
   let currentLaserIndex = currentShooterIndex;
@@ -115,22 +108,23 @@ function shoot(e) {
       setTimeout(() => squares[currentLaserIndex].classList.remove('laser'), 1000);
     }
   }
-/*   document.addEventListener('keyup', e => {
-    if(e.keyCode === 32) {
-      laserId = setInterval(moveLaser, 100);
-    }
-  }) */
   switch(e.keyCode) {
     case 32: 
       laserId = setInterval(moveLaser, 100);
     break;
   }
 }
-
-document.addEventListener('keyup', shoot);
-
+//start
+document.addEventListener('keydown',(e) => {
+  if(e.keyCode === 13) {
+    invaderId = setInterval(moveInvaders, 500);
+    document.addEventListener('keyup', shoot);
+  }
+})
+//reload
 document.addEventListener('keydown', (e) => {
-  if(e.keyCode === 13 && resultDisplay.textContent === 'game over') {
+  if(e.keyCode === 13 && 
+    (resultDisplay.textContent === 'game over' || resultDisplay.textContent === 'you win')) {
     window.location.reload();
     clearInterval(invaderId);
   }
