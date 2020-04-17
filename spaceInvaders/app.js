@@ -15,9 +15,9 @@ const invaders = [
   30,31,32,33,34,35,36,37,38,39
 ];
 
-invaders.forEach(invader => squares[currentInvaderIndex + invader].classList.add('invader'))
+invaders.forEach(invader => squares[currentInvaderIndex + invader].classList.add('invader'));
 
-squares[currentShooterIndex].classList.add('shooter')
+squares[currentShooterIndex].classList.add('shooter');
 
 function moveShooter(e) {
   squares[currentShooterIndex].classList.remove('shooter')
@@ -31,10 +31,14 @@ function moveShooter(e) {
       currentShooterIndex += 1;
       break;
   }
-  squares[currentShooterIndex].classList.add('shooter')
+  squares[currentShooterIndex].classList.add('shooter');
+  if(resultDisplay.textContent === 'game over') {
+    document.removeEventListener('keydown', moveShooter);
+  }
 }
 
 document.addEventListener('keydown', moveShooter);
+
 
 function moveInvaders() {
   const leftEdge = invaders[0] % width === 0;
@@ -48,15 +52,15 @@ function moveInvaders() {
     else direction = - 1;
   }
 
-  for(let i = 0; i <= invaders.length -1; i++) {
+  for(let i = 0; i <= invaders.length - 1; i++) {
     squares[invaders[i]].classList.remove('invader');
   }
-  for(let i = 0; i <= invaders.length -1; i++) {
+  for(let i = 0; i <= invaders.length - 1; i++) {
     invaders[i] += direction;
   }
   for(let i = 0; i <= invaders.length - 1; i++) {
     if(!invadersTakenDown.includes(i)) {
-      squares[invaders[i]].classList.add('invader')
+      squares[invaders[i]].classList.add('invader');
     }
   }
 
@@ -78,7 +82,12 @@ function moveInvaders() {
   }
 }
 
-invaderId = setInterval(moveInvaders, 500);
+document.addEventListener('keydown',(e) => {
+  if(e.keyCode === 13) {
+    invaderId = setInterval(moveInvaders, 500);
+  }
+})
+
 
 function shoot(e) {
   let laserId;
@@ -119,3 +128,10 @@ function shoot(e) {
 }
 
 document.addEventListener('keyup', shoot);
+
+document.addEventListener('keydown', (e) => {
+  if(e.keyCode === 13 && resultDisplay.textContent === 'game over') {
+    window.location.reload();
+    clearInterval(invaderId);
+  }
+})

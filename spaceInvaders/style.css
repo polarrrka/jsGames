@@ -12,18 +12,21 @@
 }
 
 .shooter {
-  background-color: dodgerblue;
+  background-image: url(shooter.png);
+  background-size: cover;
 }
 
 .invader {
-  background-color: goldenrod;
-  border-radius: 10px;
+  background-image: url(alien.png);
+  background-size: cover;
 }
 
 .boom {
-  background-color: darkred;
+  background-image: url(alienDead.png);
+  background-size: cover;
 }
 
 .laser {
-  background-color: darksalmon;
+  background-image: url(shoot.png);
+  background-size: cover;
 }
