@@ -1,0 +1,53 @@
+.grid {
+  border: 1px solid;
+  display: flex;
+  flex-wrap: wrap;
+  height: 360px;
+  width: 360px;
+}
+
+.grid div {
+  height: 40px;
+  width: 40px;
+}
+
+.ending-block {
+  background-image: url(finish.png);
+  background-size: cover;
+  background-color: lightcoral;
+}
+
+.starting-block {
+  background-color: lightcyan;
+}
+
+.c1 {
+  background-image: url(car.png);
+  background-size: contain;
+  background-color: darkgray;
+}
+
+.c2, .c3 {
+  background-color: darkgray;
+}
+
+.l1, .l2, .l3 {
+  background-image: url(log.png);
+  background-size: cover;
+  background-color: lightblue;
+}
+
+.l4 {
+  background-image: url(wave.png);
+  background-size: cover;
+  background-color: lightblue;
+}
+
+.l4, .l5 {
+  background-color: lightblue;
+}
+
+.frog {
+  background-image: url(frog.png);
+  background-size: cover;
+}
