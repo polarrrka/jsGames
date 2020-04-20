@@ -2,6 +2,7 @@ const squares = document.querySelectorAll('.grid div'),
       timeLeft = document.querySelector('#time-left'),
       result = document.querySelector('#result'),
       startBtn = document.querySelector('#btn'),
+      pauseBtn = document.querySelector('#pause-btn'),
       restartBtn = document.querySelector('#btn-restart'),
       width = 9,
       carsLeft = document.querySelectorAll('.car-left'),
@@ -20,16 +21,16 @@ function moveFrog(e) {
 
   switch(e.keyCode) {
     case 37:
-      if(currentIndex % width !== 0) currentIndex -= 1;
+      if(currentIndex % width !== 0) currentIndex -= 1; //skok vlevo
       break;
     case 38:
-      if(currentIndex - width >= 0) currentIndex -= width;
+      if(currentIndex - width >= 0) currentIndex -= width; //skok nahoru
       break;
     case 39:
-      if(currentIndex % width < width - 1) currentIndex += 1;
+      if(currentIndex % width < width - 1) currentIndex += 1; //skok vpravo
       break;
     case 40:
-      if(currentIndex + width < width * width) currentIndex += width;
+      if(currentIndex + width < width * width) currentIndex += width; //skok dolů
       break;
   }
   squares[currentIndex].classList.add('frog');
@@ -134,7 +135,7 @@ function moveLogRight(logRight) {
 function win() {
   if(squares[4].classList.contains('frog')) {
     result.innerHTML = 'you won!';
-    squares[currentIndex].classList.remove('frog');
+    // squares[currentIndex].classList.remove('frog');
     clearInterval(timerId);
     document.removeEventListener('keyup', moveFrog);
   }
@@ -177,16 +178,19 @@ function movePieces() {
   lose();
 }
 
-function start() {
-  if(timerId) {
-    clearInterval(timerId);
-  } else {
-    timerId = setInterval(movePieces, 1000);
-    document.addEventListener('keyup', moveFrog)
-  }
-}
+startBtn.addEventListener('click', () => {
+  timerId = setInterval(movePieces, 1000);
+  document.addEventListener('keyup', moveFrog);
+  startBtn.style.display = 'none';
+  pauseBtn.style.display = 'block';
+});
 
-startBtn.addEventListener('click', start);
+pauseBtn.addEventListener('click', () => {
+  clearInterval(timerId);
+  pauseBtn.style.display = 'none';
+  startBtn.style.display = 'block';
+  startBtn.textContent = 'continue';
+})
 
 restartBtn.addEventListener('click', () => {
   window.location.reload();
