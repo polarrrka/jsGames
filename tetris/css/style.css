@@ -1,0 +1,39 @@
+div {
+  background-color: blanchedalmond;
+  height: 20px;
+  width: 20px;
+}
+
+.grid {
+  height: 400px;
+  width: 200px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.previous-grid {
+  height: 80px;
+  width: 80px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.previous-shape {
+  height: 80px;
+  width: 80px;
+}
+
+.block {
+  background-image: url(block.png);
+  background-size: cover;
+}
+
+.block2 {
+  background-image: url(block.png);
+  background-size: cover;
+  filter: hue-rotate(280deg);
+}
+
+.block3 {
+  background-color: forestgreen;
+}
