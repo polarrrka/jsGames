@@ -1,31 +1,24 @@
 const width = 10,
       grid = document.querySelector('.grid'),
       startBtn = document.querySelector('#start'),
+      pauseBtn = document.querySelector('#pause'),
+      restartBtn = document.querySelector('#restart'),
       scoreDisplay = document.querySelector('.score-display'),
       linesDisplay = document.querySelector('.lines-display'),
-      
-      displaySquares = document.querySelectorAll('.previous-grid div');
+      displaySquares = document.querySelectorAll('.previous-grid div'),
+      displayWidth = 4,
+      displayIndex = 0;
 
 let currentPosition = 4,
     score = 0,
     lines = 0,
     currentIndex = 0,
+    nextRandom = 0,
+    nextRandomColor = 0,
+    currentRotation = 0,
+    interval = 1000,
     timerId,
     squares = Array.from(grid.querySelectorAll('div'));
-
-function control(e) {
-  if(e.keyCode === 39) {
-    moveRight();
-  } else if (e.keyCode === 38) {
-    rotate();
-  } else if(e.keyCode === 37) {
-    moveLeft();
-  } else if(e.keyCode === 40) {
-    moveDown();
-  }
-}
-
-document.addEventListener('keyup', control);
 
 const lTetromino = [
   [1, width+1, width*2+1, 2],
@@ -64,14 +57,34 @@ const iTetromino = [
 
 const theTetrominoes = [lTetromino, zTetromino, tTetromino, oTetromino, iTetromino];
 
-let random = Math.floor(Math.random()*theTetrominoes.length);
-
-let currentRotation = 0,
+let random = Math.floor(Math.random()*theTetrominoes.length),
+    randomColor = Math.floor(Math.random()*361),
     current = theTetrominoes[random][currentRotation];
+
+const smallTetrominoes = [
+  [1,displayWidth+1,displayWidth*2+1,2], /* lTetromino */
+  [0,displayWidth,displayWidth+1,displayWidth*2+1],  /* zTetromino */
+  [1,displayWidth,displayWidth+1,displayWidth+2],    /* tTetromino */
+  [0,1,displayWidth,displayWidth+1],     /* oTetromino */
+  [1,displayWidth+1,displayWidth*2+1,displayWidth*3+1]  //iTetromino
+  ];
+
+function control(e) {
+  if(e.keyCode === 39) {
+    moveRight();
+  } else if (e.keyCode === 38) {
+    rotate();
+  } else if(e.keyCode === 37) {
+    moveLeft();
+  } else if(e.keyCode === 40) {
+    moveDown();
+  }
+}
 
 function draw() {
   current.forEach(index => {
-    squares[currentPosition + index].classList.add('block')
+    squares[currentPosition + index].classList.add('block');
+    squares[currentPosition + index].style.filter = `hue-rotate(${randomColor}deg)`;
   })
 }
 
@@ -118,19 +131,6 @@ function rotate() {
   draw();
 }
 
-const displayWidth = 4,
-      displayIndex = 0;
-
-let nextRandom = 0;
-
-const smallTetrominoes = [
-  [1,displayWidth+1,displayWidth*2+1,2], /* lTetromino */
-  [0,displayWidth,displayWidth+1,displayWidth*2+1],  /* zTetromino */
-  [1,displayWidth,displayWidth+1,displayWidth+2],    /* tTetromino */
-  [0,1,displayWidth,displayWidth+1],     /* oTetromino */
-  [1,displayWidth+1,displayWidth*2+1,displayWidth*3+1]  //iTetromino
-  ];
-
 function displayShape() {
   displaySquares.forEach(square => {
     square.classList.remove('block');
@@ -146,6 +146,8 @@ function freeze() {
     current.forEach(index => squares[index + currentPosition].classList.add('block2'));
     random = nextRandom;
     nextRandom = Math.floor(Math.random() * theTetrominoes.length);
+    randomColor = nextRandomColor;
+    nextRandomColor = Math.floor(Math.random()*361);
     current = theTetrominoes[random][currentRotation];
     currentPosition = 4;
     draw();
@@ -158,7 +160,7 @@ freeze();
 
 function gameOver() {
   if(current.some(index => squares[currentPosition + index].classList.contains('block2'))) {
-    scoreDisplay.innerHTML = 'game over!';
+    scoreDisplay.innerHTML = 'game over! 🥶';
     clearInterval(timerId);
   }
 }
@@ -172,7 +174,6 @@ function addScore() {
       lines += 1;
       scoreDisplay.innerHTML = score;
       linesDisplay.innerHTML = lines;
-      console.log('da')
 
       row.forEach(index => {
         squares[index].classList.remove('block2') || squares[index].classList.remove('block');
@@ -185,15 +186,27 @@ function addScore() {
 }
 
 startBtn.addEventListener('click', () => {
-  if(timerId) {
-    clearInterval(timerId);
-  } else {
-    draw();
-    timerId = setInterval(moveDown, 1000);
-    nextRandom = Math.floor(Math.random() * theTetrominoes.length);
-    displayShape();
-    gameOver();
-    addScore();
-    freeze();
-  }
+  draw();
+  timerId = setInterval(moveDown, interval);
+  console.log(interval)
+  nextRandom = Math.floor(Math.random() * theTetrominoes.length);
+  displayShape();
+  gameOver();
+  addScore();
+  freeze();
+  document.addEventListener('keyup', control);
+  startBtn.style.display = 'none';
+  pauseBtn.style.display = 'inline-block';
+})
+
+pauseBtn.addEventListener('click', () => {
+  clearInterval(timerId);
+  document.removeEventListener('keyup', control);
+  pauseBtn.style.display = 'none';
+  startBtn.style.display = 'inline-block';
+  startBtn.textContent = 'continue';
+})
+
+restartBtn.addEventListener('click', () => {
+  window.location.reload();
 })

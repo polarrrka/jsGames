@@ -1,39 +1,53 @@
-div {
-  background-color: blanchedalmond;
-  height: 20px;
-  width: 20px;
+body {
+  background-color: lightyellow;
+}
+
+h5 {
+   margin: 2%;
+ }
+
+.score, .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+ }
+
+.center {
+  text-align: center;
+  width: 90%;
+  margin: 50px auto;
 }
 
 .grid {
+  background-color: lightgray;
   height: 400px;
   width: 200px;
   display: flex;
   flex-wrap: wrap;
 }
 
+.grid div, .previous-grid div, .br {
+  height: 20px;
+  width: 20px;
+}
+
 .previous-grid {
+  background-color: lightgray;
   height: 80px;
   width: 80px;
   display: flex;
   flex-wrap: wrap;
 }
 
-.previous-shape {
-  height: 80px;
-  width: 80px;
-}
-
-.block {
+.block, .block2, .block3 {
   background-image: url(block.png);
   background-size: cover;
 }
 
 .block2 {
-  background-image: url(block.png);
-  background-size: cover;
   filter: hue-rotate(280deg);
 }
 
 .block3 {
-  background-color: forestgreen;
+  filter: hue-rotate(250deg);
 }
